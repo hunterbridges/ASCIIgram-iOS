@@ -1,0 +1,12 @@
+font-size: 12px
+screen: 44x33
+content area: 22 x 42
+content area in px: 264 x 302.4
+
+
+need integer for width!
+
+288 = 7.2 * 40 (cols) = 12 * 24 (rows) = 960 chars
+252 = 7.2 * 35 (cols) = 12 * 21 (rows) = 735 chars
+216 = 7.2 * 30 (cols) = 12 * 18 (rows) = 540 chars
+

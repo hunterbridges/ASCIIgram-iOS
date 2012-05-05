@@ -7,30 +7,65 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CA25549A1555CA7F003A1400 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA2554991555CA7F003A1400 /* AVFoundation.framework */; };
+		CA8408D2154E70FD001C2C9D /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA8408D1154E70FD001C2C9D /* CoreTelephony.framework */; };
+		CA8408DA154E8139001C2C9D /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CA8408D8154E8139001C2C9D /* icon.png */; };
+		CA8408DB154E8139001C2C9D /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CA8408D9154E8139001C2C9D /* icon@2x.png */; };
+		CA8408DE15547CF5001C2C9D /* TextArtScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8408DD15547CF5001C2C9D /* TextArtScrollView.m */; };
+		CA8408E21554C45F001C2C9D /* TextArtCameraView.m in Sources */ = {isa = PBXBuildFile; fileRef = CA8408E11554C45F001C2C9D /* TextArtCameraView.m */; };
+		CA8408E41554CEB7001C2C9D /* SmallCameraButton.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA8408E31554CEB7001C2C9D /* SmallCameraButton.txt */; };
 		CAA57B11154D9F2F00A5CF98 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAA57B10154D9F2F00A5CF98 /* UIKit.framework */; };
 		CAA57B13154D9F2F00A5CF98 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAA57B12154D9F2F00A5CF98 /* Foundation.framework */; };
 		CAA57B15154D9F2F00A5CF98 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAA57B14154D9F2F00A5CF98 /* CoreGraphics.framework */; };
 		CAA57B1B154D9F2F00A5CF98 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CAA57B19154D9F2F00A5CF98 /* InfoPlist.strings */; };
 		CAA57B1D154D9F2F00A5CF98 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CAA57B1C154D9F2F00A5CF98 /* main.m */; };
 		CAA57B21154D9F2F00A5CF98 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CAA57B20154D9F2F00A5CF98 /* AppDelegate.m */; };
-		CAA57B24154D9F2F00A5CF98 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAA57B23154D9F2F00A5CF98 /* ViewController.m */; };
-		CAA57B27154D9F3000A5CF98 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CAA57B25154D9F3000A5CF98 /* ViewController.xib */; };
+		CAA57B24154D9F2F00A5CF98 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAA57B23154D9F2F00A5CF98 /* MasterViewController.m */; };
+		CAD00FE1154DF63900F4368A /* TextArtView.m in Sources */ = {isa = PBXBuildFile; fileRef = CAD00FE0154DF63900F4368A /* TextArtView.m */; };
+		CAD00FE8154E304700F4368A /* CameraButton.txt in Resources */ = {isa = PBXBuildFile; fileRef = CAD00FE2154E304700F4368A /* CameraButton.txt */; };
+		CAD00FE9154E304700F4368A /* FeedMockup.txt in Resources */ = {isa = PBXBuildFile; fileRef = CAD00FE3154E304700F4368A /* FeedMockup.txt */; };
+		CAD00FEA154E304700F4368A /* Frame.txt in Resources */ = {isa = PBXBuildFile; fileRef = CAD00FE4154E304700F4368A /* Frame.txt */; };
+		CAD00FEB154E304700F4368A /* Header.txt in Resources */ = {isa = PBXBuildFile; fileRef = CAD00FE5154E304700F4368A /* Header.txt */; };
+		CAD00FEC154E304700F4368A /* MenuBarFrame.txt in Resources */ = {isa = PBXBuildFile; fileRef = CAD00FE6154E304700F4368A /* MenuBarFrame.txt */; };
+		CAD00FED154E304700F4368A /* StatusBar.txt in Resources */ = {isa = PBXBuildFile; fileRef = CAD00FE7154E304700F4368A /* StatusBar.txt */; };
+		CAD00FF0154E41BD00F4368A /* TAStatusBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = CAD00FEF154E41BD00F4368A /* TAStatusBarView.m */; };
+		CAEE9A3B154DA4B900AD0958 /* MainMenu.txt in Resources */ = {isa = PBXBuildFile; fileRef = CAEE9A3A154DA4B900AD0958 /* MainMenu.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CA2554991555CA7F003A1400 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		CA8408D1154E70FD001C2C9D /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		CA8408D8154E8139001C2C9D /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		CA8408D9154E8139001C2C9D /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
+		CA8408DC15547CF5001C2C9D /* TextArtScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextArtScrollView.h; path = "UI Elements/TextArtScrollView.h"; sourceTree = "<group>"; };
+		CA8408DD15547CF5001C2C9D /* TextArtScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TextArtScrollView.m; path = "UI Elements/TextArtScrollView.m"; sourceTree = "<group>"; };
+		CA8408DF1554BC93001C2C9D /* TextArtViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TextArtViewDelegate.h; path = "UI Elements/TextArtViewDelegate.h"; sourceTree = "<group>"; };
+		CA8408E01554C45F001C2C9D /* TextArtCameraView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextArtCameraView.h; path = "UI Elements/TextArtCameraView.h"; sourceTree = "<group>"; };
+		CA8408E11554C45F001C2C9D /* TextArtCameraView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TextArtCameraView.m; path = "UI Elements/TextArtCameraView.m"; sourceTree = "<group>"; };
+		CA8408E31554CEB7001C2C9D /* SmallCameraButton.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = SmallCameraButton.txt; path = Screens/SmallCameraButton.txt; sourceTree = "<group>"; };
 		CAA57B0C154D9F2F00A5CF98 /* ASCIIgram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ASCIIgram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAA57B10154D9F2F00A5CF98 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		CAA57B12154D9F2F00A5CF98 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CAA57B14154D9F2F00A5CF98 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		CAA57B18154D9F2F00A5CF98 /* ASCIIgram-Info.plist */ = {isa = PBXFileReference; path = "ASCIIgram-Info.plist"; sourceTree = "<group>"; };
+		CAA57B18154D9F2F00A5CF98 /* ASCIIgram-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ASCIIgram-Info.plist"; sourceTree = "<group>"; };
 		CAA57B1A154D9F2F00A5CF98 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CAA57B1C154D9F2F00A5CF98 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		CAA57B1E154D9F2F00A5CF98 /* ASCIIgram-Prefix.pch */ = {isa = PBXFileReference; path = "ASCIIgram-Prefix.pch"; sourceTree = "<group>"; };
-		CAA57B1F154D9F2F00A5CF98 /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		CAA57B1E154D9F2F00A5CF98 /* ASCIIgram-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ASCIIgram-Prefix.pch"; sourceTree = "<group>"; };
+		CAA57B1F154D9F2F00A5CF98 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CAA57B20154D9F2F00A5CF98 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		CAA57B22154D9F2F00A5CF98 /* ViewController.h */ = {isa = PBXFileReference; path = ViewController.h; sourceTree = "<group>"; };
-		CAA57B23154D9F2F00A5CF98 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		CAA57B26154D9F3000A5CF98 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
+		CAA57B22154D9F2F00A5CF98 /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
+		CAA57B23154D9F2F00A5CF98 /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
+		CAD00FDF154DF63900F4368A /* TextArtView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextArtView.h; path = "UI Elements/TextArtView.h"; sourceTree = "<group>"; };
+		CAD00FE0154DF63900F4368A /* TextArtView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TextArtView.m; path = "UI Elements/TextArtView.m"; sourceTree = "<group>"; };
+		CAD00FE2154E304700F4368A /* CameraButton.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CameraButton.txt; path = Screens/CameraButton.txt; sourceTree = "<group>"; };
+		CAD00FE3154E304700F4368A /* FeedMockup.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = FeedMockup.txt; path = Screens/FeedMockup.txt; sourceTree = "<group>"; };
+		CAD00FE4154E304700F4368A /* Frame.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Frame.txt; path = Screens/Frame.txt; sourceTree = "<group>"; };
+		CAD00FE5154E304700F4368A /* Header.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Header.txt; path = Screens/Header.txt; sourceTree = "<group>"; };
+		CAD00FE6154E304700F4368A /* MenuBarFrame.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = MenuBarFrame.txt; path = Screens/MenuBarFrame.txt; sourceTree = "<group>"; };
+		CAD00FE7154E304700F4368A /* StatusBar.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = StatusBar.txt; path = Screens/StatusBar.txt; sourceTree = "<group>"; };
+		CAD00FEE154E41BD00F4368A /* TAStatusBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TAStatusBarView.h; path = "UI Elements/TAStatusBarView.h"; sourceTree = "<group>"; };
+		CAD00FEF154E41BD00F4368A /* TAStatusBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TAStatusBarView.m; path = "UI Elements/TAStatusBarView.m"; sourceTree = "<group>"; };
+		CAEE9A3A154DA4B900AD0958 /* MainMenu.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = MainMenu.txt; path = Screens/MainMenu.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +73,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA25549A1555CA7F003A1400 /* AVFoundation.framework in Frameworks */,
+				CA8408D2154E70FD001C2C9D /* CoreTelephony.framework in Frameworks */,
 				CAA57B11154D9F2F00A5CF98 /* UIKit.framework in Frameworks */,
 				CAA57B13154D9F2F00A5CF98 /* Foundation.framework in Frameworks */,
 				CAA57B15154D9F2F00A5CF98 /* CoreGraphics.framework in Frameworks */,
@@ -67,6 +104,8 @@
 		CAA57B0F154D9F2F00A5CF98 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CA2554991555CA7F003A1400 /* AVFoundation.framework */,
+				CA8408D1154E70FD001C2C9D /* CoreTelephony.framework */,
 				CAA57B10154D9F2F00A5CF98 /* UIKit.framework */,
 				CAA57B12154D9F2F00A5CF98 /* Foundation.framework */,
 				CAA57B14154D9F2F00A5CF98 /* CoreGraphics.framework */,
@@ -77,11 +116,12 @@
 		CAA57B16154D9F2F00A5CF98 /* ASCIIgram */ = {
 			isa = PBXGroup;
 			children = (
+				CAD00FDD154DF61900F4368A /* UI Elements */,
+				CAEE9A3D154DA4BF00AD0958 /* Screens */,
 				CAA57B1F154D9F2F00A5CF98 /* AppDelegate.h */,
 				CAA57B20154D9F2F00A5CF98 /* AppDelegate.m */,
-				CAA57B22154D9F2F00A5CF98 /* ViewController.h */,
-				CAA57B23154D9F2F00A5CF98 /* ViewController.m */,
-				CAA57B25154D9F3000A5CF98 /* ViewController.xib */,
+				CAA57B22154D9F2F00A5CF98 /* MasterViewController.h */,
+				CAA57B23154D9F2F00A5CF98 /* MasterViewController.m */,
 				CAA57B17154D9F2F00A5CF98 /* Supporting Files */,
 			);
 			path = ASCIIgram;
@@ -90,12 +130,45 @@
 		CAA57B17154D9F2F00A5CF98 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				CA8408D8154E8139001C2C9D /* icon.png */,
+				CA8408D9154E8139001C2C9D /* icon@2x.png */,
 				CAA57B18154D9F2F00A5CF98 /* ASCIIgram-Info.plist */,
 				CAA57B19154D9F2F00A5CF98 /* InfoPlist.strings */,
 				CAA57B1C154D9F2F00A5CF98 /* main.m */,
 				CAA57B1E154D9F2F00A5CF98 /* ASCIIgram-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CAD00FDD154DF61900F4368A /* UI Elements */ = {
+			isa = PBXGroup;
+			children = (
+				CAD00FDF154DF63900F4368A /* TextArtView.h */,
+				CAD00FE0154DF63900F4368A /* TextArtView.m */,
+				CAD00FEE154E41BD00F4368A /* TAStatusBarView.h */,
+				CAD00FEF154E41BD00F4368A /* TAStatusBarView.m */,
+				CA8408DC15547CF5001C2C9D /* TextArtScrollView.h */,
+				CA8408DD15547CF5001C2C9D /* TextArtScrollView.m */,
+				CA8408DF1554BC93001C2C9D /* TextArtViewDelegate.h */,
+				CA8408E01554C45F001C2C9D /* TextArtCameraView.h */,
+				CA8408E11554C45F001C2C9D /* TextArtCameraView.m */,
+			);
+			name = "UI Elements";
+			sourceTree = "<group>";
+		};
+		CAEE9A3D154DA4BF00AD0958 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				CA8408E31554CEB7001C2C9D /* SmallCameraButton.txt */,
+				CAD00FE2154E304700F4368A /* CameraButton.txt */,
+				CAD00FE3154E304700F4368A /* FeedMockup.txt */,
+				CAD00FE4154E304700F4368A /* Frame.txt */,
+				CAD00FE5154E304700F4368A /* Header.txt */,
+				CAD00FE6154E304700F4368A /* MenuBarFrame.txt */,
+				CAD00FE7154E304700F4368A /* StatusBar.txt */,
+				CAEE9A3A154DA4B900AD0958 /* MainMenu.txt */,
+			);
+			name = Screens;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -150,7 +223,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				CAA57B1B154D9F2F00A5CF98 /* InfoPlist.strings in Resources */,
-				CAA57B27154D9F3000A5CF98 /* ViewController.xib in Resources */,
+				CAEE9A3B154DA4B900AD0958 /* MainMenu.txt in Resources */,
+				CAD00FE8154E304700F4368A /* CameraButton.txt in Resources */,
+				CAD00FE9154E304700F4368A /* FeedMockup.txt in Resources */,
+				CAD00FEA154E304700F4368A /* Frame.txt in Resources */,
+				CAD00FEB154E304700F4368A /* Header.txt in Resources */,
+				CAD00FEC154E304700F4368A /* MenuBarFrame.txt in Resources */,
+				CAD00FED154E304700F4368A /* StatusBar.txt in Resources */,
+				CA8408DA154E8139001C2C9D /* icon.png in Resources */,
+				CA8408DB154E8139001C2C9D /* icon@2x.png in Resources */,
+				CA8408E41554CEB7001C2C9D /* SmallCameraButton.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,7 +245,11 @@
 			files = (
 				CAA57B1D154D9F2F00A5CF98 /* main.m in Sources */,
 				CAA57B21154D9F2F00A5CF98 /* AppDelegate.m in Sources */,
-				CAA57B24154D9F2F00A5CF98 /* ViewController.m in Sources */,
+				CAA57B24154D9F2F00A5CF98 /* MasterViewController.m in Sources */,
+				CAD00FE1154DF63900F4368A /* TextArtView.m in Sources */,
+				CAD00FF0154E41BD00F4368A /* TAStatusBarView.m in Sources */,
+				CA8408DE15547CF5001C2C9D /* TextArtScrollView.m in Sources */,
+				CA8408E21554C45F001C2C9D /* TextArtCameraView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,14 +262,6 @@
 				CAA57B1A154D9F2F00A5CF98 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		CAA57B25154D9F3000A5CF98 /* ViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				CAA57B26154D9F3000A5CF98 /* en */,
-			);
-			name = ViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -273,6 +351,7 @@
 				CAA57B2C154D9F3000A5CF98 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
