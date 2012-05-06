@@ -1,45 +1,49 @@
 #import <AVFoundation/AVFoundation.h>
+#import "GPUImage.h"
 #import "TextArtCameraView.h"
 
 @implementation TextArtCameraView
 
 - (id)init {
-    self = [super init];
-    if (self) {
-      [self resetCanvasWithFilename:@"MenuBarFrame" andSizeToo:YES];
-      button_ =
-          [[TextArtView alloc] initWithContentsOfTextFile:@"SmallCameraButton"];
-      button_.top = 29;
-      button_.left = 18;
-      [self addSubTextArtView:button_];
-    }
-    return self;
+  self = [super init];
+  if (self) {
+    [self resetCanvasWithFilename:@"MenuBarFrame" andSizeToo:YES];
+    button_ =
+        [[TextArtView alloc] initWithContentsOfTextFile:@"SmallCameraButton"];
+    button_.top = 29;
+    button_.left = 18;
+  }
+  return self;
 }
 
 - (void)startCamera {
-  AVCaptureSession *session = [[AVCaptureSession alloc] init];
-	session.sessionPreset = AVCaptureSessionPresetMedium;
-  CALayer *viewLayer = self.superTextArtView.layer;
-  AVCaptureVideoPreviewLayer *captureVideoPreviewLayer =
-  [[AVCaptureVideoPreviewLayer alloc] initWithSession:session];
-  captureVideoPreviewLayer.frame = self.superTextArtView.bounds;
-	[viewLayer addSublayer:captureVideoPreviewLayer];
-  AVCaptureDevice *device =
-  [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-  NSError *error = nil;
-	AVCaptureDeviceInput *input =
-  [AVCaptureDeviceInput deviceInputWithDevice:device error:&error];
-	if (!input) {
-		// Handle the error appropriately.
-		NSLog(@"ERROR: trying to open camera: %@", error);
-	}
-	[session addInput:input];
+  GPUImageVideoCamera *videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset640x480 cameraPosition:AVCaptureDevicePositionBack];
   
-	[session startRunning];
+  GPUImageSaturationFilter *satFilter = [[GPUImageSaturationFilter alloc] init];
+  GPUImageRotationFilter *rotationFilter = [[GPUImageRotationFilter alloc] initWithRotation:kGPUImageRotateRight];
+  satFilter.saturation = 0.0;
+  
+  GPUImageContrastFilter *contrastFilter = [[GPUImageContrastFilter alloc] init];
+  contrastFilter.contrast = 2.0;
+  
+  GPUImagePixellateFilter *pixellateFilter = [[GPUImagePixellateFilter alloc] init];
+  pixellateFilter.fractionalWidthOfAPixel = 1.0 / 35.0;
+  
+  GPUImageView *filterView = [[GPUImageView alloc] initWithFrame:superTextArtView_.bounds];
+  [superTextArtView_ addSubview:filterView];
+  
+  [videoCamera addTarget:rotationFilter];
+  [rotationFilter addTarget:satFilter];
+  [satFilter addTarget:contrastFilter];
+  [contrastFilter addTarget:pixellateFilter];
+  [pixellateFilter addTarget:filterView];
+  
+  [videoCamera startCameraCapture];
 }
 
 - (void)dealloc {
   [button_ release];
+  [bufferPreview_ release];
   [super dealloc];
 }
 
