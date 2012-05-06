@@ -1,5 +1,4 @@
 #import <AVFoundation/AVFoundation.h>
-#import "GPUImage.h"
 #import "TextArtCameraView.h"
 
 @implementation TextArtCameraView
@@ -12,38 +11,61 @@
         [[TextArtView alloc] initWithContentsOfTextFile:@"SmallCameraButton"];
     button_.top = 29;
     button_.left = 18;
+    [self addSubTextArtView:button_];
   }
   return self;
 }
 
 - (void)startCamera {
-  GPUImageVideoCamera *videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset640x480 cameraPosition:AVCaptureDevicePositionBack];
+  capturing_ = YES;
+  AVCaptureSession *captureSession = [[AVCaptureSession alloc] init];
+  captureSession.sessionPreset = AVCaptureSessionPresetHigh;
   
-  GPUImageSaturationFilter *satFilter = [[GPUImageSaturationFilter alloc] init];
-  GPUImageRotationFilter *rotationFilter = [[GPUImageRotationFilter alloc] initWithRotation:kGPUImageRotateRight];
-  satFilter.saturation = 0.0;
+  AVCaptureDevice *photoCaptureDevice =
+      [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
   
-  GPUImageContrastFilter *contrastFilter = [[GPUImageContrastFilter alloc] init];
-  contrastFilter.contrast = 2.0;
+  NSError *error = nil;
+  AVCaptureDeviceInput *videoInput =
+      [AVCaptureDeviceInput deviceInputWithDevice:photoCaptureDevice
+                                            error:&error];
+  if(videoInput){
+    [captureSession addInput:videoInput];
+  }
   
-  GPUImagePixellateFilter *pixellateFilter = [[GPUImagePixellateFilter alloc] init];
-  pixellateFilter.fractionalWidthOfAPixel = 1.0 / 35.0;
+  AVCaptureVideoDataOutput *videoOutput =
+      [[AVCaptureVideoDataOutput alloc] init];
+  NSDictionary *rgbOutputSettings =
+      [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:kCMPixelFormat_32BGRA]
+                                  forKey:(id)kCVPixelBufferPixelFormatTypeKey];
+  [videoOutput setVideoSettings:rgbOutputSettings];
   
-  GPUImageView *filterView = [[GPUImageView alloc] initWithFrame:superTextArtView_.bounds];
-  [superTextArtView_ addSubview:filterView];
+  dispatch_queue_t queue = dispatch_queue_create("myQueue", NULL);
+  [videoOutput setSampleBufferDelegate:self queue:queue];
   
-  [videoCamera addTarget:rotationFilter];
-  [rotationFilter addTarget:satFilter];
-  [satFilter addTarget:contrastFilter];
-  [contrastFilter addTarget:pixellateFilter];
-  [pixellateFilter addTarget:filterView];
+  if(videoOutput){
+    [captureSession addOutput:videoOutput];
+  }
   
-  [videoCamera startCameraCapture];
+  [captureSession startRunning];
+  
+  AVCaptureVideoPreviewLayer *previewLayer =
+      [AVCaptureVideoPreviewLayer layerWithSession:captureSession];
+  previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+  previewLayer.frame = superTextArtView_.bounds;
+}
+
+-(void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection{
+  if (capturing_){
+    CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+    CFDictionaryRef attachments = CMCopyDictionaryOfAttachments(kCFAllocatorDefault, sampleBuffer, kCMAttachmentMode_ShouldPropagate);
+    CIImage *ciImage = [[CIImage alloc] initWithCVPixelBuffer:pixelBuffer options:(NSDictionary *)attachments];
+    
+    UIImage *newFrame = [[UIImage alloc] initWithCIImage:ciImage];
+  }
 }
 
 - (void)dealloc {
   [button_ release];
-  [bufferPreview_ release];
   [super dealloc];
 }
 
