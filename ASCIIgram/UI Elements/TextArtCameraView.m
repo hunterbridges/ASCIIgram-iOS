@@ -8,10 +8,10 @@
   self = [super init];
   if (self) {
     [self resetCanvasWithFilename:@"MenuBarFrame" andSizeToo:YES];
-    button_ =
+    self.button =
         [[TextArtView alloc] initWithContentsOfTextFile:@"SmallCameraButton"];
-    button_.top = 29;
-    button_.left = 18;
+    self.button.top = 29;
+    self.button.left = 18;
   }
   return self;
 }
@@ -20,7 +20,6 @@
   GPUImageVideoCamera *videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset640x480 cameraPosition:AVCaptureDevicePositionBack];
   
   GPUImageSaturationFilter *satFilter = [[GPUImageSaturationFilter alloc] init];
-  GPUImageRotationFilter *rotationFilter = [[GPUImageRotationFilter alloc] initWithRotation:kGPUImageRotateRight];
   satFilter.saturation = 0.0;
   
   GPUImageContrastFilter *contrastFilter = [[GPUImageContrastFilter alloc] init];
@@ -29,11 +28,9 @@
   GPUImagePixellateFilter *pixellateFilter = [[GPUImagePixellateFilter alloc] init];
   pixellateFilter.fractionalWidthOfAPixel = 1.0 / 35.0;
   
-  GPUImageView *filterView = [[GPUImageView alloc] initWithFrame:superTextArtView_.bounds];
-  [superTextArtView_ addSubview:filterView];
+  GPUImageView *filterView = [[GPUImageView alloc] initWithFrame:self.superTextArtView.bounds];
+  [self.superTextArtView addSubview:filterView];
   
-  [videoCamera addTarget:rotationFilter];
-  [rotationFilter addTarget:satFilter];
   [satFilter addTarget:contrastFilter];
   [contrastFilter addTarget:pixellateFilter];
   [pixellateFilter addTarget:filterView];
@@ -41,10 +38,5 @@
   [videoCamera startCameraCapture];
 }
 
-- (void)dealloc {
-  [button_ release];
-  [bufferPreview_ release];
-  [super dealloc];
-}
 
 @end

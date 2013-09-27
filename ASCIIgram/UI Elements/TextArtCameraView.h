@@ -1,11 +1,11 @@
 #import "TextArtView.h"
 
-@interface TextArtCameraView : TextArtView {
-  TextArtView *button_;
-  BOOL capturing_;
-  UIImage *buffer_;
-  UIImageView *bufferPreview_;
-}
+@interface TextArtCameraView : TextArtView;
+
+@property (nonatomic, strong) TextArtView *button;
+@property (nonatomic, assign) BOOL capturing;
+@property (nonatomic, strong) UIImage *buffer;
+@property (nonatomic, strong) UIImageView *bufferPreview;
 
 - (void)startCamera;
 

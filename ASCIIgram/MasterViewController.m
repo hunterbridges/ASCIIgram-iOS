@@ -12,52 +12,44 @@
 - (id)init {
   self = [super init];
   if (self) {
-    view_ = [[TextArtView alloc] init];
-    [view_ fitToScreen];
-    
-    self.view = view_;
+    self.textArtView = [[TextArtView alloc] init];
+    [self.textArtView fitToScreen];
     
     TextArtView *frame =
         [[TextArtView alloc] initWithContentsOfTextFile:@"MenuBarFrame"];
     frame.top = 1;
-    [view_ addSubTextArtView:frame];
-    [frame release];
+    [self.textArtView addSubTextArtView:frame];
     
     TextArtView *header =
         [[TextArtView alloc] initWithContentsOfTextFile:@"Header"];
     header.top = 1;
-    [view_ addSubTextArtView:header];
-    [header release];
+    [self.textArtView addSubTextArtView:header];
     
     TAStatusBarView *status = [[TAStatusBarView alloc] init];
-    [view_ addSubTextArtView:status];
-    [status release];
+    [self.textArtView addSubTextArtView:status];
     
-    camButton_ =
+    self.camButton =
         [[TextArtView alloc] initWithContentsOfTextFile:@"CameraButton"];
-    camButton_.top = 28;
-    camButton_.left = 15;
-    camButton_.delegate = self;
-    [view_ addSubTextArtView:camButton_];
+    self.camButton.top = 28;
+    self.camButton.left = 15;
+    self.camButton.delegate = self;
+    [self.textArtView addSubTextArtView:self.camButton];
+      
+    self.view = self.textArtView;
+      
   }
   return self;
 }
 
 - (void)textArtViewWasClicked:(TextArtView *)view {
-  if ([view isEqual:camButton_]) {
+  if ([view isEqual:self.camButton]) {
     TextArtCameraView *cameraView = [[TextArtCameraView alloc] init];
     cameraView.top = 1;
-    [view_ addSubTextArtView:cameraView];
+    [self.textArtView addSubTextArtView:cameraView];
     [cameraView startCamera];
-    [cameraView release];
   }
 }
 
-- (void)dealloc {
-  [view_ release];
-  [camButton_ release];
-  [super dealloc];
-}
 
 #pragma mark - View lifecycle
 

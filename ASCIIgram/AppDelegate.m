@@ -4,22 +4,12 @@
 
 @implementation AppDelegate
 
-@synthesize window = _window;
-@synthesize viewController = _viewController;
-
-- (void)dealloc
-{
-  [_window release];
-  [_viewController release];
-  [super dealloc];
-}
-
 - (BOOL)application:(UIApplication *)application
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   [[UIDevice currentDevice] setBatteryMonitoringEnabled:YES];
-  self.window = [[[UIWindow alloc]
-                  initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
-  self.viewController = [[[MasterViewController alloc] init] autorelease];
+  self.window = [[UIWindow alloc]
+                  initWithFrame:[[UIScreen mainScreen] bounds]];
+  self.viewController = [[MasterViewController alloc] init];
   self.window.rootViewController = self.viewController;
   [self.window makeKeyAndVisible];
   return YES;
