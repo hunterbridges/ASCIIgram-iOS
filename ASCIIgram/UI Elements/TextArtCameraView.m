@@ -2,6 +2,14 @@
 #import "GPUImage.h"
 #import "TextArtCameraView.h"
 
+@interface TextArtCameraView ()
+
+@property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, strong) GPUImageStillCamera *stillCamera;
+@property (nonatomic, strong) GPUImageFilter *filter;
+
+@end
+
 @implementation TextArtCameraView
 
 - (id)init {
@@ -12,30 +20,59 @@
         [[TextArtView alloc] initWithContentsOfTextFile:@"SmallCameraButton"];
     self.button.top = 29;
     self.button.left = 18;
+    [self addSubTextArtView:self.button];
+    self.canvas.backgroundColor = [UIColor purpleColor];
   }
   return self;
 }
 
 - (void)startCamera {
-  GPUImageVideoCamera *videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset640x480 cameraPosition:AVCaptureDevicePositionBack];
+  GPUImageFilter *preparedFilter = [[GPUImageFilter alloc] init];
+  [preparedFilter prepareForImageCapture];
   
-  GPUImageSaturationFilter *satFilter = [[GPUImageSaturationFilter alloc] init];
-  satFilter.saturation = 0.0;
+  CGRect bounds = self.superTextArtView.bounds;
+  self.asciiImageView = [[UIImageView alloc] initWithFrame:bounds];
+  self.asciiImageView.contentMode = UIViewContentModeScaleAspectFit;
+  [self.superTextArtView addSubview:self.asciiImageView];
   
-  GPUImageContrastFilter *contrastFilter = [[GPUImageContrastFilter alloc] init];
-  contrastFilter.contrast = 2.0;
+  GPUImageLanczosResamplingFilter *sampleFilter = [[GPUImageLanczosResamplingFilter alloc] init];
+  GPUImageCannyEdgeDetectionFilter *cannyFilter = [[GPUImageCannyEdgeDetectionFilter alloc] init];
+  GPUImageColorInvertFilter *invertFilter = [[GPUImageColorInvertFilter alloc] init];
   
-  GPUImagePixellateFilter *pixellateFilter = [[GPUImagePixellateFilter alloc] init];
-  pixellateFilter.fractionalWidthOfAPixel = 1.0 / 35.0;
+  [sampleFilter forceProcessingAtSizeRespectingAspectRatio:CGSizeMake(512, 512)];
+  [preparedFilter addTarget:sampleFilter];
+  [sampleFilter addTarget:cannyFilter];
+  [cannyFilter addTarget:invertFilter];
   
-  GPUImageView *filterView = [[GPUImageView alloc] initWithFrame:self.superTextArtView.bounds];
-  [self.superTextArtView addSubview:filterView];
+  self.filter = invertFilter;
   
-  [satFilter addTarget:contrastFilter];
-  [contrastFilter addTarget:pixellateFilter];
-  [pixellateFilter addTarget:filterView];
+  // Create custom GPUImage camera
+  self.stillCamera = [[GPUImageStillCamera alloc] initWithSessionPreset:AVCaptureSessionPresetLow cameraPosition:AVCaptureDevicePositionBack];
+                      
+  self.stillCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
+  [self.stillCamera addTarget:preparedFilter];
   
-  [videoCamera startCameraCapture];
+  // Begin showing video camera stream
+  [self.stillCamera startCameraCapture];
+  
+  // Get that
+  [self sampleCamera];
+
+}
+
+- (void)sampleCamera {
+  self.timer = nil;
+  
+  [self.stillCamera capturePhotoAsImageProcessedUpToFilter:self.filter
+                                     withCompletionHandler:^(UIImage *processedImage, NSError *error){
+                                       NSLog(@"Processing");
+                                       self.asciiImageView.image = processedImage;
+                                       self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1
+                                                                                     target:self
+                                                                                   selector:@selector(sampleCamera)
+                                                                                   userInfo:nil
+                                                                                    repeats:NO];
+                                     }];
 }
 
 
