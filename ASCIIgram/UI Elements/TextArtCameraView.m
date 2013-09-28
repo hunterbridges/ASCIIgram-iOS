@@ -16,6 +16,7 @@
 @property (nonatomic, assign) int frameHeight;
 @property (nonatomic, assign) char *asciiFrame;
 @property (nonatomic, strong) NSDate *lastFrame;
+
 @end
 
 @implementation TextArtCameraView
