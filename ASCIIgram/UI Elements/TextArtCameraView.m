@@ -3,40 +3,43 @@
 #import "GPUImage.h"
 #import "TextArtCameraView.h"
 
-
-#define DEBUG_IMAGE
+// #define DEBUG_IMAGE
+// #define FRAME_RATE
 
 @interface TextArtCameraView ()
 
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) GPUImageVideoCamera *videoCamera;
 @property (nonatomic, strong) GPUImageFilter *filter;
-
+@property (nonatomic, strong) UIImageView *asciiImageView;
+@property (nonatomic, assign) int frameWidth;
+@property (nonatomic, assign) int frameHeight;
+@property (nonatomic, assign) char *asciiFrame;
+@property (nonatomic, strong) NSDate *lastFrame;
 @end
-
-const int kcharWidth = 35;
-const int kcharHeight = 21;
-
 
 @implementation TextArtCameraView
 
 - (id)init {
   self = [super init];
   if (self) {
+    self.frameWidth = 35;
+    self.frameHeight = 21;
+    
+    // The pixel data has rgba but we only need red since it is grayscale
+    // We also need newlines for every line and a null terminator
+    self.asciiFrame = calloc((self.frameWidth + 1) * self.frameHeight, sizeof(char));
+    
     [self resetCanvasWithFilename:@"MenuBarFrame" andSizeToo:YES];
-    self.button =
-        [[TextArtView alloc] initWithContentsOfTextFile:@"SmallCameraButton"];
+    self.button = [[TextArtView alloc] initWithContentsOfTextFile:@"SmallCameraButton"];
     self.button.top = 29;
     self.button.left = 18;
     [self addSubTextArtView:self.button];
 
-    self.video =
-    [[TextArtView alloc] initWithContentsOfTextFile:@"Video"];
+    self.video = [[TextArtView alloc] initWithContentsOfTextFile:@"Video"];
     self.video.top = 1;
     self.video.left = 4;
     [self addSubTextArtView:self.video];
-    
-    self.canvas.backgroundColor = [UIColor purpleColor];
   }
   return self;
 }
@@ -56,7 +59,7 @@ const int kcharHeight = 21;
   GPUImageCannyEdgeDetectionFilter *cannyFilter = [[GPUImageCannyEdgeDetectionFilter alloc] init];
   GPUImageColorInvertFilter *invertFilter = [[GPUImageColorInvertFilter alloc] init];
   
-  [sampleFilter forceProcessingAtSize:CGSizeMake(kcharWidth, kcharHeight)];
+  [sampleFilter forceProcessingAtSize:CGSizeMake(self.frameWidth, self.frameHeight)];
 
   [preparedFilter addTarget:cannyFilter];
   [cannyFilter addTarget:sampleFilter];
@@ -79,55 +82,58 @@ const int kcharHeight = 21;
 
 }
 
-- (void)sampleCamera {
-  self.timer = nil;
-  NSLog(@"Processing");
-  
-  
-  UIImage *image = [self.filter imageFromCurrentlyProcessedOutput];
-  if (image == nil) {
-   // Use a timer here to get a slight pause and to not overflow the stack
-      self.timer = [NSTimer scheduledTimerWithTimeInterval:0.16
+- (void)scheduleSample {
+  // Use a timer here to get a slight pause and to not overflow the stack
+  self.timer = [NSTimer scheduledTimerWithTimeInterval:0
                                                 target:self
                                               selector:@selector(sampleCamera)
                                               userInfo:nil
                                                repeats:NO];
-      return;
+  
+}
+
+- (void)sampleCamera {
+  self.timer = nil;
+  
+#ifdef FRAME_RATE
+  if (self.lastFrame) {
+    NSDate *now = [NSDate date];
+    NSLog(@"Frame rate: %f", 1.0 / [now timeIntervalSinceDate:self.lastFrame]);
+  }
+  self.lastFrame = [NSDate date];
+#endif
+  
+  UIImage *image = [self.filter imageFromCurrentlyProcessedOutput];
+  if (image == nil) {
+    [self scheduleSample];
+    return;
   }
   
   NSData* pixelData = (__bridge NSData*) CGDataProviderCopyData(CGImageGetDataProvider(image.CGImage));
   unsigned char* pixelBytes = (unsigned char*)[pixelData bytes];
-  
-  NSMutableString *m = [[NSMutableString alloc] init];
-//  char *pixelChars = calloc((pixelData.length / 4) + 1, sizeof(char));
   int index = 0;
-  int lines = 0;
+  
   // Take away the red pixel, assuming 32-bit RGBA
   for(int i = 0; i < pixelData.length; i += 4) {
     uint8_t red = pixelBytes[i];
-    if (index > 0 && index % kcharWidth == 0)  {
-      lines++;
-      [m appendString:@"\n"];
+    if (index > 0 && index % self.frameWidth == 0)  {
+      self.asciiFrame[index++] = (char)10;
+      continue;
     }
-    index++;
-    [m appendFormat:@"%c", [self charForPixel:red]];
+    self.asciiFrame[index++] = [self charForPixel:red];
   }
   
-  if (m.length) {
-    [self.video resetCanvasWithString:m andSizeToo:YES];
+  if (index) {
+    NSString *asciiString = [[NSString alloc] initWithCString:self.asciiFrame encoding:NSASCIIStringEncoding];
+    [self.video resetCanvasWithString:asciiString andSizeToo:YES];
   }
   
-
 #ifdef DEBUG_IMAGE
   self.asciiImageView.image = image;
+  NSLog(@"Processing:\n%@\n\n", m);
 #endif
   
-  // Use a timer here to get a slight pause and to not overflow the stack
-  self.timer = [NSTimer scheduledTimerWithTimeInterval:0.5
-                                                target:self
-                                              selector:@selector(sampleCamera)
-                                              userInfo:nil
-                                               repeats:NO];
+  [self scheduleSample];
 }
 
 static char BLACK = '@';

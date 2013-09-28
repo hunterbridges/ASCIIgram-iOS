@@ -427,6 +427,7 @@
 					"$(SRCROOT)/submodules/**",
 				);
 				INFOPLIST_FILE = "ASCIIgram/ASCIIgram-Info.plist";
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
