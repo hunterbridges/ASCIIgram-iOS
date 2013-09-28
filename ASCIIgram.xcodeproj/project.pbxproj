@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		543C327117F65F8D00514DB1 /* Video.txt in Resources */ = {isa = PBXBuildFile; fileRef = 543C327017F65F8D00514DB1 /* Video.txt */; };
 		5474D0DB17F4F30C005702EC /* libGPUImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5474D0D517F4F23E005702EC /* libGPUImage.a */; };
 		5474D0DF17F5EC07005702EC /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5474D0DE17F5EC07005702EC /* Default-568h@2x.png */; };
 		CA25549A1555CA7F003A1400 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA2554991555CA7F003A1400 /* AVFoundation.framework */; };
@@ -64,6 +65,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		543C327017F65F8D00514DB1 /* Video.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Video.txt; path = Screens/Video.txt; sourceTree = "<group>"; };
 		5474D0CE17F4F23D005702EC /* GPUImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GPUImage.xcodeproj; path = submodules/GPUImage/framework/GPUImage.xcodeproj; sourceTree = SOURCE_ROOT; };
 		5474D0DE17F5EC07005702EC /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		CA2554991555CA7F003A1400 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -231,6 +233,7 @@
 				CAD00FE2154E304700F4368A /* CameraButton.txt */,
 				CAD00FE3154E304700F4368A /* FeedMockup.txt */,
 				CAD00FE4154E304700F4368A /* Frame.txt */,
+				543C327017F65F8D00514DB1 /* Video.txt */,
 				CAD00FE5154E304700F4368A /* Header.txt */,
 				CAD00FE6154E304700F4368A /* MenuBarFrame.txt */,
 				CAD00FE7154E304700F4368A /* StatusBar.txt */,
@@ -319,6 +322,7 @@
 				CAD00FE8154E304700F4368A /* CameraButton.txt in Resources */,
 				CAD00FE9154E304700F4368A /* FeedMockup.txt in Resources */,
 				CAD00FEA154E304700F4368A /* Frame.txt in Resources */,
+				543C327117F65F8D00514DB1 /* Video.txt in Resources */,
 				5474D0DF17F5EC07005702EC /* Default-568h@2x.png in Resources */,
 				CAD00FEB154E304700F4368A /* Header.txt in Resources */,
 				CAD00FEC154E304700F4368A /* MenuBarFrame.txt in Resources */,

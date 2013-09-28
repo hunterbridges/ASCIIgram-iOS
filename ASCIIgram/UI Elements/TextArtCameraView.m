@@ -4,6 +4,8 @@
 #import "TextArtCameraView.h"
 
 
+// #define DEBUG_IMAGE
+
 @interface TextArtCameraView ()
 
 @property (nonatomic, strong) NSTimer *timer;
@@ -27,6 +29,13 @@ const int kcharHeight = 21;
     self.button.top = 29;
     self.button.left = 18;
     [self addSubTextArtView:self.button];
+
+    self.video =
+    [[TextArtView alloc] initWithContentsOfTextFile:@"Video"];
+    self.video.top = 1;
+    self.video.left = 4;
+    [self addSubTextArtView:self.video];
+    
     self.canvas.backgroundColor = [UIColor purpleColor];
   }
   return self;
@@ -36,10 +45,12 @@ const int kcharHeight = 21;
   GPUImageFilter *preparedFilter = [[GPUImageFilter alloc] init];
   [preparedFilter prepareForImageCapture];
   
+#ifdef DEBUG_IMAGE
   CGRect bounds = self.superTextArtView.bounds;
   self.asciiImageView = [[UIImageView alloc] initWithFrame:bounds];
   self.asciiImageView.contentMode = UIViewContentModeScaleAspectFit;
   [self.superTextArtView addSubview:self.asciiImageView];
+#endif
   
   GPUImageLanczosResamplingFilter *sampleFilter = [[GPUImageLanczosResamplingFilter alloc] init];
   GPUImageCannyEdgeDetectionFilter *cannyFilter = [[GPUImageCannyEdgeDetectionFilter alloc] init];
@@ -84,16 +95,22 @@ const int kcharHeight = 21;
   // Take away the red pixel, assuming 32-bit RGBA
   for(int i = 0; i < pixelData.length; i += 4) {
     uint8_t red = pixelBytes[i];
-    if (index++ % kcharWidth == 0)  {
+    if (index > 0 && index % kcharWidth == 0)  {
       lines++;
       [m appendString:@"\n"];
     }
+    index++;
     [m appendFormat:@"%c", [self charForPixel:red]];
   }
   
-  NSLog(@"Pix (tot: %i, chars: %i, lines: %i):\n %@", pixelData.length, index, lines, m);
+  if (m.length) {
+    [self.video resetCanvasWithString:m andSizeToo:YES];
+  }
   
+
+#ifdef DEBUG_IMAGE
   self.asciiImageView.image = image;
+#endif
   
   // Use a timer here to get a slight pause and to not overflow the stack
   self.timer = [NSTimer scheduledTimerWithTimeInterval:0.5
