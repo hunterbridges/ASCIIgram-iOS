@@ -57,16 +57,19 @@
 #endif
   
   GPUImageLanczosResamplingFilter *sampleFilter = [[GPUImageLanczosResamplingFilter alloc] init];
-  GPUImageCannyEdgeDetectionFilter *cannyFilter = [[GPUImageCannyEdgeDetectionFilter alloc] init];
-  GPUImageColorInvertFilter *invertFilter = [[GPUImageColorInvertFilter alloc] init];
+  GPUImageBrightnessFilter *brightFilter = [[GPUImageBrightnessFilter alloc] init];
+  GPUImageContrastFilter *contrastFilter = [[GPUImageContrastFilter alloc] init];
+  GPUImageSaturationFilter *satFilter = [[GPUImageSaturationFilter alloc] init];
+  GPUImageGammaFilter *gammaFilter = [[GPUImageGammaFilter alloc] init];
   
   [sampleFilter forceProcessingAtSize:CGSizeMake(self.frameWidth, self.frameHeight)];
-
-  [preparedFilter addTarget:cannyFilter];
-  [cannyFilter addTarget:sampleFilter];
-  [sampleFilter addTarget:invertFilter];
   
-  self.filter = invertFilter;
+  [preparedFilter addTarget:sampleFilter];
+  [sampleFilter addTarget:brightFilter];
+  [brightFilter addTarget:contrastFilter];
+  [contrastFilter addTarget:satFilter];
+  [satFilter addTarget:gammaFilter];
+  self.filter = gammaFilter;
   
   // Create custom GPUImage camera
   self.videoCamera = [[GPUImageVideoCamera alloc]
@@ -127,16 +130,26 @@
   if (index) {
     NSString *asciiString = [[NSString alloc] initWithCString:self.asciiFrame encoding:NSASCIIStringEncoding];
     [self.video resetCanvasWithString:asciiString andSizeToo:YES];
+#ifdef DEBUG_IMAGE
+    self.asciiImageView.image = image;
+    NSLog(@"Processing:\n%@\n\n", asciiString);
+#endif
   }
   
-#ifdef DEBUG_IMAGE
-  self.asciiImageView.image = image;
-  NSLog(@"Processing:\n%@\n\n", m);
-#endif
   
   [self scheduleSample];
 }
 
+- (char)charForPixel:(int)redValue {
+  // Symbols in order of visual magnitude (with escapes for \ and "
+  const char *syms = " `..'~!-^,_:{};><\\(/)?*=\"%+il[]71tcjr3C&2oxvJIzL$uZ6YTO5Gsw4eyn0AVDPFfphSaU9dXbk8QqREKmWBg@H#NM";
+  int len = 95.0;
+  int index = floor((redValue / 256.0) * len);
+  return syms[len - index];
+}
+
+
+/*
 static char BLACK = '@';
 static char CHARCOAL = '#';
 static char DARKGRAY = '8';
@@ -150,7 +163,7 @@ static char WHITE = ' ';
 - (char)charForPixel:(int)redValue
 {
   char asciival = ' ';
-  
+ 
   if (redValue >= 230)
   {
     asciival = WHITE;
@@ -189,6 +202,6 @@ static char WHITE = ' ';
   }
   
   return asciival;
-}
+}*/
 
 @end
