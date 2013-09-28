@@ -4,7 +4,7 @@
 #import "TextArtCameraView.h"
 
 
-// #define DEBUG_IMAGE
+#define DEBUG_IMAGE
 
 @interface TextArtCameraView ()
 
@@ -83,7 +83,17 @@ const int kcharHeight = 21;
   self.timer = nil;
   NSLog(@"Processing");
   
+  
   UIImage *image = [self.filter imageFromCurrentlyProcessedOutput];
+  if (image == nil) {
+   // Use a timer here to get a slight pause and to not overflow the stack
+      self.timer = [NSTimer scheduledTimerWithTimeInterval:0.16
+                                                target:self
+                                              selector:@selector(sampleCamera)
+                                              userInfo:nil
+                                               repeats:NO];
+      return;
+  }
   
   NSData* pixelData = (__bridge NSData*) CGDataProviderCopyData(CGImageGetDataProvider(image.CGImage));
   unsigned char* pixelBytes = (unsigned char*)[pixelData bytes];
