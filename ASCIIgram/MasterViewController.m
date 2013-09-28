@@ -14,7 +14,6 @@
   if (self) {
     self.textArtView = [[TextArtView alloc] init];
     [self.textArtView fitToScreen];
-    self.textArtView.backgroundColor = [UIColor redColor];
     
     TextArtView *frame =
         [[TextArtView alloc] initWithContentsOfTextFile:@"MenuBarFrame"];

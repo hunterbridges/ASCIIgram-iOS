@@ -3,7 +3,7 @@
 #import "GPUImage.h"
 #import "TextArtCameraView.h"
 
-// #define DEBUG_IMAGE
+#define DEBUG_IMAGE
 // #define FRAME_RATE
 
 @interface TextArtCameraView ()
@@ -24,8 +24,8 @@
 - (id)init {
   self = [super init];
   if (self) {
-    self.frameWidth = 35;
-    self.frameHeight = 21;
+    self.frameWidth = 41;
+    self.frameHeight = 28; // 21 is the correct size
     
     // The pixel data has rgba but we only need red since it is grayscale
     // We also need newlines for every line and a null terminator
@@ -39,7 +39,7 @@
 
     self.video = [[TextArtView alloc] initWithContentsOfTextFile:@"Video"];
     self.video.top = 1;
-    self.video.left = 4;
+    self.video.left = 1;
     [self addSubTextArtView:self.video];
   }
   return self;
@@ -56,6 +56,7 @@
   [self.superTextArtView addSubview:self.asciiImageView];
 #endif
   
+//  GPUImageLowPassFilter *lowPass = [[GPUImageLowPassFilter alloc] init];
   GPUImageLanczosResamplingFilter *sampleFilter = [[GPUImageLanczosResamplingFilter alloc] init];
   GPUImageBrightnessFilter *brightFilter = [[GPUImageBrightnessFilter alloc] init];
   GPUImageContrastFilter *contrastFilter = [[GPUImageContrastFilter alloc] init];
@@ -63,6 +64,10 @@
   GPUImageGammaFilter *gammaFilter = [[GPUImageGammaFilter alloc] init];
   
   [sampleFilter forceProcessingAtSize:CGSizeMake(self.frameWidth, self.frameHeight)];
+  brightFilter.brightness = 0.2;
+  contrastFilter.contrast = 3.0;
+  satFilter.saturation = 0;
+  
   
   [preparedFilter addTarget:sampleFilter];
   [sampleFilter addTarget:brightFilter];
@@ -70,6 +75,7 @@
   [contrastFilter addTarget:satFilter];
   [satFilter addTarget:gammaFilter];
   self.filter = gammaFilter;
+  
   
   // Create custom GPUImage camera
   self.videoCamera = [[GPUImageVideoCamera alloc]
@@ -144,7 +150,7 @@
   // Symbols in order of visual magnitude (with escapes for \ and "
   const char *syms = " `..'~!-^,_:{};><\\(/)?*=\"%+il[]71tcjr3C&2oxvJIzL$uZ6YTO5Gsw4eyn0AVDPFfphSaU9dXbk8QqREKmWBg@H#NM";
   int len = 95.0;
-  int index = floor((redValue / 256.0) * len);
+  int index = round((redValue / 256.0) * len);
   return syms[len - index];
 }
 
@@ -202,6 +208,6 @@ static char WHITE = ' ';
   }
   
   return asciival;
-}*/
-
+}
+*/
 @end
