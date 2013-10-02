@@ -3,7 +3,7 @@
 #import "GPUImage.h"
 #import "TextArtCameraView.h"
 
-#define DEBUG_IMAGE
+// #define DEBUG_IMAGE
 // #define FRAME_RATE
 
 @interface TextArtCameraView ()
@@ -20,6 +20,10 @@
 @end
 
 @implementation TextArtCameraView
+
+// Symbols in order of visual magnitude (with escapes for \ and "
+static const char *palette = "MN#H@gBWmKERqQ8kbXd9UaShpfFPDVA0nye4wsG5OTY6Zu$LzIJvxo2&C3rjct17][li+%\"=*?)/(\\<>;}{:_,^-!~'..` ";
+static int paletteLength = 95;
 
 - (id)init {
   self = [super init];
@@ -147,11 +151,8 @@
 }
 
 - (char)charForPixel:(int)redValue {
-  // Symbols in order of visual magnitude (with escapes for \ and "
-  const char *syms = " `..'~!-^,_:{};><\\(/)?*=\"%+il[]71tcjr3C&2oxvJIzL$uZ6YTO5Gsw4eyn0AVDPFfphSaU9dXbk8QqREKmWBg@H#NM";
-  int len = 95.0;
-  int index = round((redValue / 256.0) * len);
-  return syms[len - index];
+  int index = round((redValue / 256.0) * paletteLength);
+  return palette[index];
 }
 
 
