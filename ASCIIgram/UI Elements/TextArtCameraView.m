@@ -2,6 +2,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import "GPUImage.h"
 #import "TextArtCameraView.h"
+#import "AsciiConverter.h"
+#import "ImageToAsciiConverter.h"
 
 // #define DEBUG_IMAGE
 // #define FRAME_RATE
@@ -12,28 +14,17 @@
 @property (nonatomic, strong) GPUImageVideoCamera *videoCamera;
 @property (nonatomic, strong) GPUImageFilter *filter;
 @property (nonatomic, strong) UIImageView *asciiImageView;
-@property (nonatomic, assign) int frameWidth;
-@property (nonatomic, assign) int frameHeight;
-@property (nonatomic, assign) char *asciiFrame;
 @property (nonatomic, strong) NSDate *lastFrame;
+@property (nonatomic, strong) AsciiConverter* converter;
 
 @end
 
 @implementation TextArtCameraView
 
-// Symbols in order of visual magnitude (with escapes for \ and "
-static const char *palette = "MN#H@gBWmKERqQ8kbXd9UaShpfFPDVA0nye4wsG5OTY6Zu$LzIJvxo2&C3rjct17][li+%\"=*?)/(\\<>;}{:_,^-!~'..` ";
-static int paletteLength = 95;
-
 - (id)init {
   self = [super init];
   if (self) {
-    self.frameWidth = 41;
-    self.frameHeight = 28; // 21 is the correct size
-    
-    // The pixel data has rgba but we only need red since it is grayscale
-    // We also need newlines for every line and a null terminator
-    self.asciiFrame = calloc((self.frameWidth + 1) * self.frameHeight, sizeof(char));
+    self.converter = [[ImageToAsciiConverter alloc] initWithWidth:41 andHeight:28];
     
     [self resetCanvasWithFilename:@"MenuBarFrame" andSizeToo:YES];
     self.button = [[TextArtView alloc] initWithContentsOfTextFile:@"SmallCameraButton"];
@@ -50,9 +41,6 @@ static int paletteLength = 95;
 }
 
 - (void)startCamera {
-  GPUImageFilter *preparedFilter = [[GPUImageFilter alloc] init];
-  [preparedFilter prepareForImageCapture];
-  
 #ifdef DEBUG_IMAGE
   CGRect bounds = self.superTextArtView.bounds;
   self.asciiImageView = [[UIImageView alloc] initWithFrame:bounds];
@@ -60,33 +48,13 @@ static int paletteLength = 95;
   [self.superTextArtView addSubview:self.asciiImageView];
 #endif
   
-//  GPUImageLowPassFilter *lowPass = [[GPUImageLowPassFilter alloc] init];
-  GPUImageLanczosResamplingFilter *sampleFilter = [[GPUImageLanczosResamplingFilter alloc] init];
-  GPUImageBrightnessFilter *brightFilter = [[GPUImageBrightnessFilter alloc] init];
-  GPUImageContrastFilter *contrastFilter = [[GPUImageContrastFilter alloc] init];
-  GPUImageSaturationFilter *satFilter = [[GPUImageSaturationFilter alloc] init];
-  GPUImageGammaFilter *gammaFilter = [[GPUImageGammaFilter alloc] init];
-  
-  [sampleFilter forceProcessingAtSize:CGSizeMake(self.frameWidth, self.frameHeight)];
-  brightFilter.brightness = 0.2;
-  contrastFilter.contrast = 3.0;
-  satFilter.saturation = 0;
-  
-  
-  [preparedFilter addTarget:sampleFilter];
-  [sampleFilter addTarget:brightFilter];
-  [brightFilter addTarget:contrastFilter];
-  [contrastFilter addTarget:satFilter];
-  [satFilter addTarget:gammaFilter];
-  self.filter = gammaFilter;
-  
-  
   // Create custom GPUImage camera
   self.videoCamera = [[GPUImageVideoCamera alloc]
-                      initWithSessionPreset:AVCaptureSessionPresetLow cameraPosition:AVCaptureDevicePositionBack];
+                      initWithSessionPreset:AVCaptureSessionPresetLow
+                             cameraPosition:AVCaptureDevicePositionBack];
                       
   self.videoCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
-  [self.videoCamera addTarget:preparedFilter];
+  [self.videoCamera addTarget:self.converter.filter];
   
   // Begin showing video camera stream
   [self.videoCamera startCameraCapture];
@@ -123,22 +91,8 @@ static int paletteLength = 95;
     return;
   }
   
-  NSData* pixelData = (__bridge NSData*) CGDataProviderCopyData(CGImageGetDataProvider(image.CGImage));
-  unsigned char* pixelBytes = (unsigned char*)[pixelData bytes];
-  int index = 0;
-  
-  // Take away the red pixel, assuming 32-bit RGBA
-  for(int i = 0; i < pixelData.length; i += 4) {
-    uint8_t red = pixelBytes[i];
-    if (index > 0 && index % self.frameWidth == 0)  {
-      self.asciiFrame[index++] = (char)10;
-      continue;
-    }
-    self.asciiFrame[index++] = [self charForPixel:red];
-  }
-  
-  if (index) {
-    NSString *asciiString = [[NSString alloc] initWithCString:self.asciiFrame encoding:NSASCIIStringEncoding];
+  NSString *asciiString = [self.converter convert:image];
+  if (asciiString) {
     [self.video resetCanvasWithString:asciiString andSizeToo:YES];
 #ifdef DEBUG_IMAGE
     self.asciiImageView.image = image;
@@ -146,69 +100,10 @@ static int paletteLength = 95;
 #endif
   }
   
-  
   [self scheduleSample];
-}
-
-- (char)charForPixel:(int)redValue {
-  int index = round((redValue / 256.0) * paletteLength);
-  return palette[index];
 }
 
 
 /*
-static char BLACK = '@';
-static char CHARCOAL = '#';
-static char DARKGRAY = '8';
-static char MEDIUMGRAY = '&';
-static char MEDIUM = 'o';
-static char GRAY = ':';
-static char SLATEGRAY = '*';
-static char LIGHTGRAY = '.';
-static char WHITE = ' ';
-
-- (char)charForPixel:(int)redValue
-{
-  char asciival = ' ';
- 
-  if (redValue >= 230)
-  {
-    asciival = WHITE;
-  }
-  else if (redValue >= 200)
-  {
-    asciival = LIGHTGRAY;
-  }
-  else if (redValue >= 180)
-  {
-    asciival = SLATEGRAY;
-  }
-  else if (redValue >= 160)
-  {
-    asciival = GRAY;
-  }
-  else if (redValue >= 130)
-  {
-    asciival = MEDIUM;
-  }
-  else if (redValue >= 100)
-  {
-    asciival = MEDIUMGRAY;
-  }
-  else if (redValue >= 70)
-  {
-    asciival = DARKGRAY;
-  }
-  else if (redValue >= 50)
-  {
-    asciival = CHARCOAL;
-  }
-  else
-  {
-    asciival = BLACK;
-  }
-  
-  return asciival;
-}
 */
 @end

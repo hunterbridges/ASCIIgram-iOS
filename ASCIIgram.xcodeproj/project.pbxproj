@@ -10,6 +10,9 @@
 		543C327117F65F8D00514DB1 /* Video.txt in Resources */ = {isa = PBXBuildFile; fileRef = 543C327017F65F8D00514DB1 /* Video.txt */; };
 		5474D0DB17F4F30C005702EC /* libGPUImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5474D0D517F4F23E005702EC /* libGPUImage.a */; };
 		5474D0DF17F5EC07005702EC /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5474D0DE17F5EC07005702EC /* Default-568h@2x.png */; };
+		54AE514017FBCF880042744F /* AsciiConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 54AE513F17FBCF880042744F /* AsciiConverter.m */; };
+		54AE514317FBCFB10042744F /* BasicAsciiConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 54AE514217FBCFB10042744F /* BasicAsciiConverter.m */; };
+		54AE514617FBCFDF0042744F /* ImageToAsciiConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 54AE514517FBCFDF0042744F /* ImageToAsciiConverter.m */; };
 		CA25549A1555CA7F003A1400 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA2554991555CA7F003A1400 /* AVFoundation.framework */; };
 		CA25549D1556261C003A1400 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA25549C1556261C003A1400 /* CoreImage.framework */; };
 		CA2554A0155626A1003A1400 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA25549E155626A1003A1400 /* CoreMedia.framework */; };
@@ -68,6 +71,12 @@
 		543C327017F65F8D00514DB1 /* Video.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Video.txt; path = Screens/Video.txt; sourceTree = "<group>"; };
 		5474D0CE17F4F23D005702EC /* GPUImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GPUImage.xcodeproj; path = submodules/GPUImage/framework/GPUImage.xcodeproj; sourceTree = SOURCE_ROOT; };
 		5474D0DE17F5EC07005702EC /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
+		54AE513E17FBCF880042744F /* AsciiConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsciiConverter.h; path = Converters/AsciiConverter.h; sourceTree = "<group>"; };
+		54AE513F17FBCF880042744F /* AsciiConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsciiConverter.m; path = Converters/AsciiConverter.m; sourceTree = "<group>"; };
+		54AE514117FBCFB10042744F /* BasicAsciiConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BasicAsciiConverter.h; path = Converters/BasicAsciiConverter.h; sourceTree = "<group>"; };
+		54AE514217FBCFB10042744F /* BasicAsciiConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BasicAsciiConverter.m; path = Converters/BasicAsciiConverter.m; sourceTree = "<group>"; };
+		54AE514417FBCFDF0042744F /* ImageToAsciiConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageToAsciiConverter.h; path = Converters/ImageToAsciiConverter.h; sourceTree = "<group>"; };
+		54AE514517FBCFDF0042744F /* ImageToAsciiConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageToAsciiConverter.m; path = Converters/ImageToAsciiConverter.m; sourceTree = "<group>"; };
 		CA2554991555CA7F003A1400 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		CA25549C1556261C003A1400 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		CA25549E155626A1003A1400 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
@@ -139,6 +148,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		54AE513D17FBCF670042744F /* Converters */ = {
+			isa = PBXGroup;
+			children = (
+				54AE513E17FBCF880042744F /* AsciiConverter.h */,
+				54AE513F17FBCF880042744F /* AsciiConverter.m */,
+				54AE514117FBCFB10042744F /* BasicAsciiConverter.h */,
+				54AE514217FBCFB10042744F /* BasicAsciiConverter.m */,
+				54AE514417FBCFDF0042744F /* ImageToAsciiConverter.h */,
+				54AE514517FBCFDF0042744F /* ImageToAsciiConverter.m */,
+			);
+			name = Converters;
+			sourceTree = "<group>";
+		};
 		CA2554A215562E8C003A1400 /* Third Party */ = {
 			isa = PBXGroup;
 			children = (
@@ -185,6 +207,7 @@
 			isa = PBXGroup;
 			children = (
 				CA2554A215562E8C003A1400 /* Third Party */,
+				54AE513D17FBCF670042744F /* Converters */,
 				CAD00FDD154DF61900F4368A /* UI Elements */,
 				CAEE9A3D154DA4BF00AD0958 /* Screens */,
 				CAA57B1F154D9F2F00A5CF98 /* AppDelegate.h */,
@@ -341,9 +364,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				CAA57B1D154D9F2F00A5CF98 /* main.m in Sources */,
+				54AE514617FBCFDF0042744F /* ImageToAsciiConverter.m in Sources */,
 				CAA57B21154D9F2F00A5CF98 /* AppDelegate.m in Sources */,
 				CAA57B24154D9F2F00A5CF98 /* MasterViewController.m in Sources */,
 				CAD00FE1154DF63900F4368A /* TextArtView.m in Sources */,
+				54AE514017FBCF880042744F /* AsciiConverter.m in Sources */,
+				54AE514317FBCFB10042744F /* BasicAsciiConverter.m in Sources */,
 				CAD00FF0154E41BD00F4368A /* TAStatusBarView.m in Sources */,
 				CA8408DE15547CF5001C2C9D /* TextArtScrollView.m in Sources */,
 				CA8408E21554C45F001C2C9D /* TextArtCameraView.m in Sources */,
